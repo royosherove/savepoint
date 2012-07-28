@@ -1,3 +1,4 @@
 describe "Savior" do
-  it "does something"
+  it "does something" do
+  end
 end

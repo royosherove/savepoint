@@ -44,17 +44,13 @@ class JUnit < RSpec::Core::Formatters::BaseFormatter
     builder.testsuite :errors => 0, :failures => failure_count, :skipped => pending_count, :tests => example_count, :time => duration, :timestamp => Time.now.iso8601 do
       builder.properties
       @test_results.each do |test|
-        builder.testcase :classname => full_name_for(test), :name => test.metadata[:full_description], :time => test.metadata[:execution_result][:run_time] do
-          case test.metadata[:execution_result][:status]
-          when "failed"
-            builder.failure :message => "failed #{test.metadata[:full_description]}", :type => "failed" do
-              builder.cdata! failure_details_for test
-            end
-          when "pending" then builder.skipped
-          end
+        builder.testcase  :classname => full_name_for(test), :status =>test.metadata[:execution_result][:status], :name => test.metadata[:full_description], :time => test.metadata[:execution_result][:run_time] do
         end
       end
     end
     output.puts builder.target!
+    `git add .`
+    `git add -u`
+    `git commit -m '#{builder.target!}'`
   end
 end
