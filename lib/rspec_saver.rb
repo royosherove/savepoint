@@ -44,7 +44,10 @@ class JUnit < RSpec::Core::Formatters::BaseFormatter
     builder.testsuite :errors => 0, :failures => failure_count, :skipped => pending_count, :tests => example_count, :time => duration, :timestamp => Time.now.iso8601 do
       builder.properties
       @test_results.each do |test|
-        builder.testcase  :classname => full_name_for(test), :status =>test.metadata[:execution_result][:status], :name => test.metadata[:full_description], :time => test.metadata[:execution_result][:run_time] do
+        status = test.metadata[:execution_result][:status]
+        name = full_name_for(test)
+        short = "#{status} #{name}"
+        builder.testcase  :short=> short ,:classname => full_name_for(test), :status =>status, :name => test.metadata[:full_description], :time => test.metadata[:execution_result][:run_time] do
         end
       end
     end
