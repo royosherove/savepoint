@@ -1,4 +1,5 @@
 require 'time'
+require 'awesome_print'
 require 'builder'
 require 'rspec/core/formatters/base_formatter'
 
@@ -47,6 +48,7 @@ class JUnit < RSpec::Core::Formatters::BaseFormatter
         status = test.metadata[:execution_result][:status]
         name = full_name_for(test)
         short = "#{status} #{name}"
+        pp test.metadata
         builder.testcase  :short=> short ,:classname => full_name_for(test), :status =>status, :name => test.metadata[:full_description], :time => test.metadata[:execution_result][:run_time] do
         end
       end
